@@ -135,64 +135,64 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
       aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
       ```
     ### Check VM Import Progress
-            ```sh
-            # VM Image being updated to AMI
-            [root:tmp]# aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
-            {
-                "ImportImageTasks": [
-                    {
-                        "Description": "centosv7",
-                        "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
-                        "Progress": "30",
-                        "SnapshotDetails": [
-                            {
-                                "Description": "centosv7",
-                                "DiskImageSize": 931182592.0,
-                                "Format": "VMDK",
-                                "Status": "completed",
-                                "UserBucket": {
-                                    "S3Bucket": "n-backup",
-                                    "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
-                                }
-                            }
-                        ],
-                        "Status": "active",
-                        "StatusMessage": "updating"
-                    }
-                ]
-            }
-            ```
-##### Completed Status
-        ```sh
-        [root:tmp]# aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
-        {
-            "ImportImageTasks": [
-                {
-                    "Architecture": "x86_64",
-                    "Description": "centosv7",
-                    "ImageId": "ami-0da97e2296167b5ca",
-                    "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
-                    "LicenseType": "BYOL",
-                    "Platform": "Linux",
-                    "SnapshotDetails": [
-                        {
-                            "Description": "centosv7",
-                            "DeviceName": "/dev/sda1",
-                            "DiskImageSize": 931182592.0,
-                            "Format": "VMDK",
-                            "SnapshotId": "snap-0dc6d32a5924b22c7",
-                            "Status": "completed",
-                            "UserBucket": {
-                                "S3Bucket": "n-backup",
-                                "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
-                            }
-                        }
-                    ],
-                    "Status": "completed"
-                }
-            ]
-        }
-        ```
+      ```sh
+      # VM Image being updated to AMI
+      [root:tmp]# aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
+      {
+          "ImportImageTasks": [
+              {
+                  "Description": "centosv7",
+                  "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
+                  "Progress": "30",
+                  "SnapshotDetails": [
+                      {
+                          "Description": "centosv7",
+                          "DiskImageSize": 931182592.0,
+                          "Format": "VMDK",
+                          "Status": "completed",
+                          "UserBucket": {
+                              "S3Bucket": "n-backup",
+                              "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
+                          }
+                      }
+                  ],
+                  "Status": "active",
+                  "StatusMessage": "updating"
+              }
+          ]
+      }
+      ```
+    ### Completion Status
+      ```sh
+      [root:tmp]# aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
+      {
+          "ImportImageTasks": [
+              {
+                  "Architecture": "x86_64",
+                  "Description": "centosv7",
+                  "ImageId": "ami-0da97e2296167b5ca",
+                  "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
+                  "LicenseType": "BYOL",
+                  "Platform": "Linux",
+                  "SnapshotDetails": [
+                      {
+                          "Description": "centosv7",
+                          "DeviceName": "/dev/sda1",
+                          "DiskImageSize": 931182592.0,
+                          "Format": "VMDK",
+                          "SnapshotId": "snap-0dc6d32a5924b22c7",
+                          "Status": "completed",
+                          "UserBucket": {
+                              "S3Bucket": "n-backup",
+                              "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
+                          }
+                      }
+                  ],
+                  "Status": "completed"
+              }
+          ]
+      }
+      ```
 1. ## Launch New EC2
         Once you launch the VM, you can login using the same `uid`/`password` you used onpremise. Typically in real-world you will clean this before the import task and setup SSH key-based authenticaion
 
