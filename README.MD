@@ -12,6 +12,9 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
     - AWS CLI with access to `Administrator` privileges
         - _You can tighten it down based on your requirements_
 
+1. ## Export VM & Upload to S3
+    Depending on virtualization tool, use the appropriate procedure to export your VM into `*.vmdk` or `*.ova` image. Upload the image to S3 Bucket and note down the `bucket_name` and `vm_image_name`.
+
 1. ## Global Customisation Variables
     ```sh
     bucket_name="n-backup"
