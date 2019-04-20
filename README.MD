@@ -1,7 +1,7 @@
 # Migrate Your Existing OnPremise Workloads to Amazon EC2
 Using `VM Import` migrate your existing VM-based applications and preserve the software and settings that you have configured in your existing VM.
 
-![Fig : Migrate Your Existing Applications and Workloads to Amazon EC2](https://raw.githubusercontent.com/miztiik/server-migration-onprem-to-aws/master/images/miztiik-server-migration-onprem-to-aws-1.png)
+![Fig : Migrate Your Existing Applications and Workloads to Amazon EC2](https://raw.githubusercontent.com/miztiik/server-migration-onprem-to-aws/master/images/miztiik-server-migration-onprem-to-aws-2.png)
 
 #### Follow this article in [Youtube](https://youtu.be/UYaV-VfnbT8)
 
