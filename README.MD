@@ -194,7 +194,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
       }
       ```
 1. ## Launch New EC2
-        Once you launch the VM, you can login using the same `uid`/`password` you used onpremise. Typically in real-world you will clean this before the import task and setup SSH key-based authenticaion
+    Once you launch the VM, you can login using the same `uid`/`password` you used onpremise. Typically in real-world you will clean this before the import task and setup SSH key-based authenticaion
 
 
 ## Support
