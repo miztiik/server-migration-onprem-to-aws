@@ -49,8 +49,8 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
     aws iam create-role --role-name vmimport --assume-role-policy-document "file://trust-policy.json"
     ```
 
-1. ### Create the Policy: `role-policy.json`
-    Create the policy that will be attached to the role created in the previous step. The bucket name is picked up from the `global variable` we definedearlier.
+1. ### Create the IAM Policy: `role-policy.json`
+    This policy will be attached to the role `vmimport` created in the previous step. The bucket name is picked up from the `global variable`.
     ```json
     echo '{
        "Version":"2012-10-17",
@@ -82,51 +82,50 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
     ' | sudo tee role-policy.json
     ```
 
-1. ### Attach Policy to Role:`vmimport`
-        Attach the policy the IAM Role
-        ```sh
-        aws iam put-role-policy --role-name vmimport --policy-name vmimport --policy-document "file://role-policy.json"
-        ```
+1. ### Attach Policy to IAM Role:`vmimport`
+    ```sh
+    aws iam put-role-policy --role-name vmimport --policy-name vmimport --policy-document "file://role-policy.json"
+    ```
 
 1. ## Begin VM Image Import Task
-        The following command will begin the import of the VM Image. The S3 Bucket name & Bucket Key picked up from the global variables.
-        ```sh
-        # Set the metadata, 
-        echo '[
-          {
-            "Description": "centosv7",
-            "Format": "vmdk",
-            "UserBucket": {
-                "S3Bucket": "'${bucket_name}'",
-                "S3Key": "'${vm_image_name}'"
-            }
-        }]
-        ' | containers.json
+    The following command will begin the import of the VM Image. The S3 Bucket name & Bucket Key picked up from the global variables.
+    ```sh
+    # Set the metadata, 
+    echo '[
+      {
+        "Description": "centosv7",
+        "Format": "vmdk",
+        "UserBucket": {
+            "S3Bucket": "'${bucket_name}'",
+            "S3Key": "'${vm_image_name}'"
+        }
+    }]
+    ' | containers.json
 
-        #  Begin Import
-        aws ec2 import-image --description "centosv7" --disk-containers "file://containers.json"
-        ```
-            _The expected output,_
-            ```sh
-            {
-                "Description": "centosv7",
-                "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
-                "Progress": "2",
-                "SnapshotDetails": [
-                    {
-                        "DiskImageSize": 0.0,
-                        "Format": "VMDK",
-                        "UserBucket": {
-                            "S3Bucket": "n-backup",
-                            "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
-                        }
+    #  Begin Import
+    aws ec2 import-image --description "centosv7" --disk-containers "file://containers.json"
+    ```
+        _The expected output,_
+        ```sh
+        {
+            "Description": "centosv7",
+            "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
+            "Progress": "2",
+            "SnapshotDetails": [
+                {
+                    "DiskImageSize": 0.0,
+                    "Format": "VMDK",
+                    "UserBucket": {
+                        "S3Bucket": "n-backup",
+                        "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
                     }
-                ],
-                "Status": "active",
-                "StatusMessage": "pending"
-            }
-            ```
-            Note down the `ImportTaskId` to check the progress of the import job.
+                }
+            ],
+            "Status": "active",
+            "StatusMessage": "pending"
+        }
+        ```
+        Note down the `ImportTaskId` to check the progress of the import job.
 
 ## Status of Import Jobs
 ```sh
