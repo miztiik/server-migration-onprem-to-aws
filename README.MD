@@ -130,38 +130,38 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
       ```
       Note down the `ImportTaskId` to check the progress of the import job.
 
-## Status of Import Jobs
-```sh
-aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
-```
-##### Check VM Import Progress
-        ```sh
-        # VM Image being updated to AMI
-        [root:tmp]# aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
-        {
-            "ImportImageTasks": [
-                {
-                    "Description": "centosv7",
-                    "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
-                    "Progress": "30",
-                    "SnapshotDetails": [
-                        {
-                            "Description": "centosv7",
-                            "DiskImageSize": 931182592.0,
-                            "Format": "VMDK",
-                            "Status": "completed",
-                            "UserBucket": {
-                                "S3Bucket": "n-backup",
-                                "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
+    ### Check status of VM Import Jobs
+      ```sh
+      aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
+      ```
+    ### Check VM Import Progress
+            ```sh
+            # VM Image being updated to AMI
+            [root:tmp]# aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
+            {
+                "ImportImageTasks": [
+                    {
+                        "Description": "centosv7",
+                        "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
+                        "Progress": "30",
+                        "SnapshotDetails": [
+                            {
+                                "Description": "centosv7",
+                                "DiskImageSize": 931182592.0,
+                                "Format": "VMDK",
+                                "Status": "completed",
+                                "UserBucket": {
+                                    "S3Bucket": "n-backup",
+                                    "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
+                                }
                             }
-                        }
-                    ],
-                    "Status": "active",
-                    "StatusMessage": "updating"
-                }
-            ]
-        }
-        ```
+                        ],
+                        "Status": "active",
+                        "StatusMessage": "updating"
+                    }
+                ]
+            }
+            ```
 ##### Completed Status
         ```sh
         [root:tmp]# aws ec2 describe-import-image-tasks --import-task-ids "import-ami-0d6db3a35d431e4e3"
