@@ -82,9 +82,11 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
     ' | sudo tee role-policy.json
     ```
 
-1. ### Attach Policy to IAM Role:`vmimport`
+1. ### Attach policy to IAM Role:`vmimport`
     ```sh
-    aws iam put-role-policy --role-name vmimport --policy-name vmimport --policy-document "file://role-policy.json"
+    aws iam put-role-policy --role-name vmimport \
+                            --policy-name vmimport \
+                            --policy-document "file://role-policy.json"
     ```
 
 1. ## Begin VM Image Import Task
@@ -101,31 +103,32 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
         }
     }]
     ' | containers.json
-
-    #  Begin Import
-    aws ec2 import-image --description "centosv7" --disk-containers "file://containers.json"
     ```
-        _The expected output,_
-        ```sh
-        {
-            "Description": "centosv7",
-            "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
-            "Progress": "2",
-            "SnapshotDetails": [
-                {
-                    "DiskImageSize": 0.0,
-                    "Format": "VMDK",
-                    "UserBucket": {
-                        "S3Bucket": "n-backup",
-                        "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
-                    }
-                }
-            ],
-            "Status": "active",
-            "StatusMessage": "pending"
-        }
-        ```
-        Note down the `ImportTaskId` to check the progress of the import job.
+    ###  Begin VM Import
+      ```sh
+      aws ec2 import-image --description "centosv7" --disk-containers "file://containers.json"
+      ```
+      _The expected output,_
+      ```sh
+      {
+          "Description": "centosv7",
+          "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
+          "Progress": "2",
+          "SnapshotDetails": [
+              {
+                  "DiskImageSize": 0.0,
+                  "Format": "VMDK",
+                  "UserBucket": {
+                      "S3Bucket": "n-backup",
+                      "S3Key": "VM-Import/vCentOS7-disk002.vmdk"
+                  }
+              }
+          ],
+          "Status": "active",
+          "StatusMessage": "pending"
+      }
+      ```
+      Note down the `ImportTaskId` to check the progress of the import job.
 
 ## Status of Import Jobs
 ```sh
