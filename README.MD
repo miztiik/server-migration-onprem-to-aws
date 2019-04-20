@@ -6,78 +6,78 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
 #### Follow this article in [Youtube](https://youtu.be/UYaV-VfnbT8)
 
 0. ## Prerequisities
-        - OnPremise VM (_Preferably in VMWare / Virtualbox_)
-            - If you have `*.vmdk` image of your VM that will also be enough
-            - **MUST**: You should have the `uid`/`password` to log into this VM
-        - AWS CLI with access to `Administrator` privileges
-            - _You can tighten it down based on your requirements_
+    - OnPremise VM (_Preferably in VMWare / Virtualbox_)
+        - If you have `*.vmdk` image of your VM that will also be enough
+        - **MUST**: You should have the `uid`/`password` to log into this VM
+    - AWS CLI with access to `Administrator` privileges
+        - _You can tighten it down based on your requirements_
 
 1. ## Global Customisation Variables
-        ```sh
-        bucket_name="n-backup"
-        # Add the appropriate S3 Prefix to the VM Image
-        vm_image_name="VM-Import/vCentOS7-disk002.vmdk"
-        ```
+    ```sh
+    bucket_name="n-backup"
+    # Add the appropriate S3 Prefix to the VM Image
+    vm_image_name="VM-Import/vCentOS7-disk002.vmdk"
+    ```
 
 1. ### Create Trust Policy
-        Create the IAM trust policy json with the name `trust-policy.json`
-        ```json
-        cat > "trust-policy.json" << "EOF"
-        {
-           "Version": "2012-10-17",
-           "Statement": [
-              {
-                 "Effect": "Allow",
-                 "Principal": { "Service": "vmie.amazonaws.com" },
-                 "Action": "sts:AssumeRole",
-                 "Condition": {
-                    "StringEquals":{
-                       "sts:Externalid": "vmimport"
-                    }
-                 }
-              }
-           ]
-        }
-        EOF
-        ```
+    Create the IAM trust policy json with the name `trust-policy.json`
+    ```json
+    cat > "trust-policy.json" << "EOF"
+    {
+       "Version": "2012-10-17",
+       "Statement": [
+          {
+             "Effect": "Allow",
+             "Principal": { "Service": "vmie.amazonaws.com" },
+             "Action": "sts:AssumeRole",
+             "Condition": {
+                "StringEquals":{
+                   "sts:Externalid": "vmimport"
+                }
+             }
+          }
+       ]
+    }
+    EOF
+    ```
 1. ### Create the IAM Role for VM Import
-        Ensure that you create the role with the name `vmimport`. Use the trust policy created in the previous step
-        ```sh
-        aws iam create-role --role-name vmimport --assume-role-policy-document "file://trust-policy.json"
-        ```
+    Ensure that you create the role with the name `vmimport`. Use the trust policy created in the previous step
+    ```sh
+    aws iam create-role --role-name vmimport --assume-role-policy-document "file://trust-policy.json"
+    ```
 
 1. ### Create the Policy: `role-policy.json`
-        Create the policy that will be attached to the role created in the previous step. The bucket name is picked up from the `global variable` we defined earlier.
-        ```json
-        echo '{
-           "Version":"2012-10-17",
-           "Statement":[
-              {
-                 "Effect":"Allow",
-                 "Action":[
-                    "s3:GetBucketLocation",
-                    "s3:GetObject",
-                    "s3:ListBucket" 
-                 ],
-                 "Resource":[
-                    "arn:aws:s3:::'${bucket_name}'",
-                    "arn:aws:s3:::'${bucket_name}/*'"
-                 ]
-              },
-              {
-                 "Effect":"Allow",
-                 "Action":[
-                    "ec2:ModifySnapshotAttribute",
-                    "ec2:CopySnapshot",
-                    "ec2:RegisterImage",
-                    "ec2:Describe*"
-                 ],
-                 "Resource":"*"
-              }
-           ]
-        }
-        ' | sudo tee role-policy.json
-        ```
+    Create the policy that will be attached to the role created in the previous step. The bucket name is picked up from the `global variable` we definedearlier.
+    ```json
+    echo '{
+       "Version":"2012-10-17",
+       "Statement":[
+          {
+             "Effect":"Allow",
+             "Action":[
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:ListBucket" 
+             ],
+             "Resource":[
+                "arn:aws:s3:::'${bucket_name}'",
+                "arn:aws:s3:::'${bucket_name}/*'"
+             ]
+          },
+          {
+             "Effect":"Allow",
+             "Action":[
+                "ec2:ModifySnapshotAttribute",
+                "ec2:CopySnapshot",
+                "ec2:RegisterImage",
+                "ec2:Describe*"
+             ],
+             "Resource":"*"
+          }
+       ]
+    }
+    ' | sudo tee role-policy.json
+    ```
 
 1. ### Attach Policy to Role:`vmimport`
         Attach the policy the IAM Role
