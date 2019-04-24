@@ -51,7 +51,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
 
 1. ### Create the IAM Policy: `role-policy.json`
     This policy will be attached to the role `vmimport` created in the previous step. The bucket name is picked up from the `global variable`.
-    ```json
+    ```sh
     echo '{
        "Version":"2012-10-17",
        "Statement":[
@@ -64,7 +64,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
              ],
              "Resource":[
                 "arn:aws:s3:::'${bucket_name}'",
-                "arn:aws:s3:::'${bucket_name}/*'"
+                "arn:aws:s3:::'${bucket_name}'/*"
              ]
           },
           {
@@ -90,7 +90,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
     ```
 
 1. ## Begin VM Image Import Task
-    The following command will begin the import of the VM Image. The S3 Bucket name & Bucket Key picked up from the global variables.
+    The following command will begin the import of the VM Image. The S3 Bucket name & Bucket Key is picked up from the global variables.
     ```sh
     # Set the metadata, 
     echo '[
@@ -109,7 +109,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
       aws ec2 import-image --description "centosv7" --disk-containers "file://containers.json"
       ```
       _The expected output,_
-      ```sh
+      ```
       {
           "Description": "centosv7",
           "ImportTaskId": "import-ami-0d6db3a35d431e4e3",
@@ -201,7 +201,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
 Please open a [GitHub issue](https://github.com/miztiik/server-migration-onprem-to-aws/issues/new).
 
 ## Feedback
-Please open a [GitHub issue](https://github.com/miztiik/server-migration-onprem-to-aws/issues/new). I do encourage you to contribute your changes and send me pull request.
+Please open a [GitHub issue](https://github.com/miztiik/server-migration-onprem-to-aws/issues/new). I encourage you to contribute your changes and send me pull request.
 
 ##### References
 1. [AWS CLI - import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html)
