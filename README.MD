@@ -102,7 +102,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
             "S3Key": "'${vm_image_name}'"
         }
     }]
-    ' | containers.json
+    ' > containers.json
     ```
     ###  Begin VM Import
       ```sh
