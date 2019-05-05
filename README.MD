@@ -18,7 +18,7 @@ Using `VM Import` migrate your existing VM-based applications and preserve the s
 
     Depending on virtualization tool, use the appropriate procedure to export your VM into `*.vmdk` or `*.ova` image. Upload the image to S3 Bucket and note down the `bucket_name` and `vm_image_name`.
 
-1. ## Global Customisation Variables
+1. ## Global Customization Variables
 
     ```sh
     bucket_name="n-backup"
